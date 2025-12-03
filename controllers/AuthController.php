@@ -27,7 +27,9 @@ class AuthController
             if ($checkuser) {
                 $select =  $user->unique('email', $data['email']);
                 return View::redirect('user/show', ['id' => $select['id']]);
-                // return View::redirect('user/index', ['id' => $select['id']]);
+            } else {
+                $errors = ['msg' => 'Echec d’authentification!'];
+                return view::render('auth/create', ['errors' => $errors]);
             }
         } else {
             $errors = $validator->getErrors();

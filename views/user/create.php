@@ -49,8 +49,7 @@
         <span class="error">{{ errors.zipcode }}</span>
         {% endif %}
 
-
-        <input type="submit" class="bouton-submit" value="Enregistrer">
+        <input type="submit" class="bouton" value="Enregistrer">
     </form>
 </div>
 {{ include('layouts/footer.php')}}

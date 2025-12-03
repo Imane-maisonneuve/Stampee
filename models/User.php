@@ -8,7 +8,7 @@ class User extends CRUD
 {
     protected $table = 'user';
     protected $primaryKey = 'id';
-    protected $fillable = ['name', 'surname', 'phone', 'email', 'password', 'adress', 'zipcode'];
+    protected $fillable = ['name', 'surname', 'phone', 'email', 'password', 'adress', 'zipcode', 'is_actif'];
 
     public function hashPassword($password, $cost = 10)
     {
@@ -23,7 +23,7 @@ class User extends CRUD
     {
         $user = $this->unique('email', $email);
         if ($user) {
-            if (password_verify($password, $user['password'])) {
+            if (password_verify($password, $user['password']) && ($user['is_actif'] === 1)) {
                 session_regenerate_id();
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_surname'] = $user['surname'];

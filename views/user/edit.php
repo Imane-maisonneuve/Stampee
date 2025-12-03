@@ -1,4 +1,4 @@
-{{ include('layouts/header.php', {title:'site edit'})}}
+{{ include('layouts/header.php', {title:'user edit'})}}
 <div class="container">
     <form class="form-base" method="post">
 
@@ -23,7 +23,7 @@
         {% endif %}
 
         <input type="hidden" name="id" value="{{ user.id }}">
-        <input type="submit" class="bouton-submit" value="Mettre à jour">
+        <input type="submit" class="bouton" value="Mettre à jour">
     </form>
 </div>
 {{ include('layouts/footer.php')}}

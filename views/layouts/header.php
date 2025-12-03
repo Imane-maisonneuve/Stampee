@@ -55,7 +55,7 @@
                             </ul>
                         </li>
                         {%if isAuthenticated %}
-                        <li><a href="{{base}}/logout">Se deconnecter</a></li>
+                        <li><a href="{{base}}/user/show?id={{session.user_id}}">Mon profil</a> / <a href="{{base}}/logout">Se deconnecter</a></li>
                         {% else %}
                         <li><a href="{{base}}/login">Se connecter</a></li>
                         {% endif %}

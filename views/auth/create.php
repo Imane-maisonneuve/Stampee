@@ -2,6 +2,9 @@
 
 <form class="form-base" method="POST">
     <h2>Connectez-vous! </h2>
+    {% if errors.msg is defined %}
+    <span class="error">{{ errors.msg }}</span>
+    {% endif %}
 
     <label for="email">Courriel</label>
     <input id="email" name="email" type="email" />

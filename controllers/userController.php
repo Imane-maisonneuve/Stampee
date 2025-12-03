@@ -4,34 +4,35 @@ namespace App\Controllers;
 
 use App\Providers\View;
 use App\Models\User;
-use App\Models\UserBid;
+use App\Models\Auction;
 use App\Providers\Validator;
 use App\Providers\Auth;
 
 class UserController
 {
-    public function __construct()
+    public function show($data = [])
     {
         Auth::session();
-    }
-    public function index($data = [])
-    {
-        Auth::session();
+        if (isset($data['id']) && $data['id'] != null && ($_SESSION['user_id'] == $data['id'])) {
 
-        // if (isset($data['id']) && $data['id'] != null) {
-        //     $user = new User;
-        //     $selectId = $user->selectId($data['id']);
-        //     if ($selectId) {
-        //         $userBid = new UserBid;
-        //         $selectBids = $userBid->selectListe('user_id', $selectId['id']);
-        //         return View::render("user/index", ['bids' => $selectBids]);
-        //     } else {
-        //         return View::render('error', ['msg' => 'User not found!']);
-        //     }
-        // } else {
-        //     return View::render('error', ['msg' => '404 page not found!']);
-        // }
+            $user = new User;
+            $selectId = $user->selectId($data['id']);
 
+            if ($selectId) {
+                $auction = new Auction;
+                $selectAuctions = $auction->getAuctions($data['id']);
+                if ($selectAuctions) {
+                    return View::render('user/show', ['user' => $selectId, 'auctions' => $selectAuctions]);
+                } else {
+                    return View::render('user/show', ['user' => $selectId]);
+                }
+            } else {
+                $errors = ['msg' => 'Echec d’authentification!'];
+                return view::render('auth/create', ['errors' => $errors]);
+            }
+        } else {
+            return view::redirect('login');
+        }
     }
 
     public function create()
@@ -63,22 +64,6 @@ class UserController
         } else {
             $errors = $validator->getErrors();
             return view::render('user/create', ['errors' => $errors, 'user' => $data]);
-        }
-    }
-
-    public function show($data = [])
-    {
-        Auth::session();
-        if (isset($data['id']) && $data['id'] != null && ($_SESSION['user_id'] == $data['id'])) {
-            $user = new User;
-            $selectId = $user->selectId($data['id']);
-            if ($selectId) {
-                return View::render('user/show', ['user' => $selectId]);
-            } else {
-                return View::render('error', ['msg' => 'User not found!']);
-            }
-        } else {
-            return view::redirect('login');
         }
     }
 
@@ -120,6 +105,18 @@ class UserController
         } else {
             $errors = $validator->getErrors();
             return view::render('user/edit', ['errors' => $errors, 'user' => $selectId]);
+        }
+    }
+
+    public function setUserInactive($data = [])
+    {
+        Auth::session();
+        $user = new User;
+        $update = $user->update(['is_actif' => 0], $data['id']);
+        if ($update) {
+            return view::redirect('logout');;
+        } else {
+            return view::render('error', ['msg' => 'Echec de la mise à jour!']);
         }
     }
 }
