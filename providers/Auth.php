@@ -14,14 +14,4 @@ class Auth
             return view::redirect('login');
         }
     }
-
-    static public function privilege($id)
-    {
-        if ($_SESSION['privilege_id'] == $id) {
-            return TRUE;
-        } else {
-            // return view::redirect('login');
-            return false;
-        }
-    }
 }

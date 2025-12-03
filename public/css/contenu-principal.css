@@ -1,0 +1,7 @@
+[id="contenu-principal"] {
+  padding: 20px;
+}
+
+[id="contenu-principal"] > * + * {
+  margin-top: 30px;
+}

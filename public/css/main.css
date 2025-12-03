@@ -1,0 +1,98 @@
+@import "typographie.css";
+@import "carte.css";
+@import "grille.css";
+@import "navigation.css";
+@import "menu-deroulant.css";
+@import "logo.css";
+@import "bouton.css";
+@import "pied-de-page.css";
+@import "contenu-principal.css";
+@import "barre-laterale.css";
+@import "recherche.css";
+@import "filtres-form.css";
+@import "tri.css";
+@import "entete.css";
+@import "enchere.css";
+@import "pagination.css";
+@import "carrousel.css";
+@import "mode-payement.css";
+
+/* formulaire */
+.form-base {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 500px;
+  margin: 60px auto;
+  padding: 20px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+}
+
+.form-base > * {
+  margin-top: 10px;
+}
+
+.form-base input,
+select {
+  padding: 10px 5px;
+  border: 1px solid lightgray;
+  border-radius: 4px;
+}
+
+.bouton-submit {
+  min-width: 100px;
+  background: #83a396;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+  font-size: 16px;
+  padding: 5px;
+  border-radius: 4px;
+  align-items: center;
+  text-align: center;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+}
+
+/*-*-*-*-*-*/
+.user-section {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* Carte contenant les infos */
+.user-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-family: Arial, sans-serif;
+}
+
+/* Titre */
+.user-title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Lignes d'informations */
+.user-info {
+  font-size: 16px;
+  color: #555;
+  margin: 0;
+}
+
+/* Formulaire */
+.user-form {
+  margin-top: 10px;
+}

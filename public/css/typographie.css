@@ -1,0 +1,175 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+html {
+  color: #001427;
+  min-height: 100%;
+  display: flex;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #001427;
+  flex-direction: column;
+  background-color: white;
+  margin-left: auto;
+  margin-right: auto;
+  flex-basis: 100%;
+}
+
+footer {
+  background-color: #83a396;
+  display: flex;
+  flex-direction: column;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.1;
+}
+
+h1 {
+  font-size: 40px;
+}
+
+h2 {
+  font-size: 32px;
+}
+
+h3 {
+  font-size: 28px;
+}
+
+h4 {
+  font-size: 24px;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  line-height: 2;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  object-fit: cover;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Balthazar", serif;
+  font-weight: 400;
+  font-style: normal;
+  padding-top: 10px;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+a {
+  color: #001427;
+  text-decoration: none;
+}
+
+input {
+  outline: none;
+  box-shadow: none;
+}
+
+small {
+  font-family: "Dancing Script", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+[id="main-enchere"] main {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+@media (max-width: 600px) {
+  [id="main-enchere"] main p {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 1200px) {
+  [id="main-enchere"] main p {
+    font-size: 18px;
+  }
+}
+
+[id="catalogue-encheres"] {
+  display: grid;
+  gap: 20px;
+}
+
+@media (max-width: 989px) {
+  [id="catalogue-encheres"] > aside,
+  [id="catalogue-encheres"] > footer {
+    order: 1;
+  }
+}
+
+@media (min-width: 990px) {
+  [id="catalogue-encheres"] {
+    grid-template-areas:
+      "entete   entete"
+      "barre    contenu"
+      "pied     pied";
+    grid-template-columns: clamp(25ch, 25vw, 30ch) 1fr;
+    grid-template-rows: auto 1fr auto;
+  }
+
+  [id="catalogue-encheres"] > header {
+    grid-area: entete;
+  }
+
+  [id="catalogue-encheres"] > aside {
+    grid-area: barre;
+  }
+
+  [id="catalogue-encheres"] > main {
+    grid-area: contenu;
+  }
+
+  [id="catalogue-encheres"] > footer {
+    grid-area: pied;
+  }
+}

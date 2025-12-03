@@ -5,8 +5,7 @@ namespace App\Controllers;
 use App\Providers\View;
 use App\Providers\Validator;
 use App\Models\User;
-use App\Models\Client;
-use App\Models\Journal;
+
 
 
 class AuthController
@@ -23,20 +22,12 @@ class AuthController
         $validator->field('password', $data['password'])->min(6)->max(20);
 
         if ($validator->isSuccess()) {
-
             $user = new User;
             $checkuser = $user->checkUser($data['email'], $data['password']);
             if ($checkuser) {
-                return View::redirect('sites');
-            } else {
-                $client = new Client;
-                $checkclient = $client->checkclient($data['email'], $data['password']);
-                if ($checkclient) {
-                    return View::redirect('sites');
-                } else {
-                    $errors['message'] = "Veuillez vérifier vos identifiants";
-                    return view::render('auth/create', ['errors' => $errors, 'user' => $data]);
-                }
+                $select =  $user->unique('email', $data['email']);
+                return View::redirect('user/show', ['id' => $select['id']]);
+                // return View::redirect('user/index', ['id' => $select['id']]);
             }
         } else {
             $errors = $validator->getErrors();

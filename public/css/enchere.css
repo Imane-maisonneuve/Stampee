@@ -1,0 +1,96 @@
+.enchere {
+  display: flex;
+  align-items: flex-start;
+  gap: 50px;
+  padding: 20px;
+}
+.enchere > article {
+  flex-basis: 60%;
+}
+
+.enchereNav {
+  font-size: 18px;
+  padding: 10px 20px;
+}
+.enchere-nav a:hover {
+  text-decoration: underline;
+}
+
+.enchere-image-box {
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+.enchere-timbre-image {
+  overflow: hidden;
+  max-width: 400px;
+}
+
+.enchere-timbre-image img {
+  transition: transform 0.3s ease;
+  cursor: zoom-in;
+}
+
+.enchere-timbre-image img:hover {
+  transform: scale(1.5);
+}
+
+.enchere-box {
+  position: sticky;
+  top: 0;
+  flex-basis: 40%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.enchere-box button {
+  width: 200px;
+}
+
+.enchere-detail {
+  display: flex;
+  gap: 10px;
+}
+
+.enchere-description {
+  padding: 20px 0;
+  max-width: 80ch;
+}
+
+.enchere-description h2 {
+  padding: 20px 0;
+}
+
+.enchere-description p {
+  line-height: 2.5rem;
+}
+
+.enchere-infos {
+  max-width: 100%;
+}
+
+.enchere-infos p {
+  line-height: 2rem;
+}
+
+@media (max-width: 900px) {
+  .enchere {
+    gap: 30px;
+  }
+}
+
+@media (max-width: 700px) {
+  .enchere {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .enchere-box {
+    position: static;
+  }
+}

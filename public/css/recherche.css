@@ -1,0 +1,23 @@
+.recherche {
+  text-align: center;
+  padding: 30px;
+}
+
+.recherche-text {
+  padding: 10px;
+  border: 1px solid #8d0801;
+  border-radius: 25px;
+  background-color: white;
+}
+
+@media (max-width: 800px) {
+  .recherche-text {
+    width: 200px;
+  }
+}
+
+@media (min-width: 800px) {
+  .recherche-text {
+    width: 600px;
+  }
+}

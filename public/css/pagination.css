@@ -1,0 +1,12 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination-bouton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}

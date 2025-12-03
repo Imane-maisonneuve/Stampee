@@ -7,7 +7,7 @@ abstract class CRUD extends \PDO
 
     final public function __construct()
     {
-        parent::__construct('mysql:host=localhost; dbname=camping_mvc_auth; port=3306; charset=utf8', 'root', 'admin');
+        parent::__construct('mysql:host=localhost; dbname=stampee; port=3306; charset=utf8', 'root', 'admin');
     }
 
     final public function select($field = null, $order = 'ASC')
@@ -110,6 +110,7 @@ abstract class CRUD extends \PDO
         $stmt = $this->prepare($sql);
         $stmt->bindValue(":$field", $value);
         $stmt->execute();
+        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
         $count = $stmt->rowCount();
         if ($count == 1) {
             return $stmt->fetch();

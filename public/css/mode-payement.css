@@ -1,0 +1,11 @@
+.mode-payement {
+  display: flex;
+  justify-content: flex-start;
+  align-items: start;
+  gap: 10px;
+}
+
+.mode-payement img {
+  width: 50px;
+  margin: 0;
+}

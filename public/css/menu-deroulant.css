@@ -1,0 +1,25 @@
+.menu-deroulant {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  border: 1px solid #83a396;
+  background-color: #83a396;
+}
+
+.menu-deroulant ul {
+  position: absolute;
+  width: max-content;
+  top: 100%;
+  padding: 20px;
+  background-color: #83a396;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.menu-deroulant:not(:hover) ul {
+  display: none;
+}
+
+.menu-deroulant a:hover {
+  border-bottom: 2px solid #f4d58d;
+}

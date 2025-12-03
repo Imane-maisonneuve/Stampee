@@ -1,0 +1,27 @@
+.filtres-form {
+  padding: 10px 10px 15px 20px;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.filtres-form label {
+  font-size: 14px;
+  padding: 5px;
+  display: block;
+  cursor: pointer;
+  width: max-content;
+}
+
+.filtres-form input {
+  margin-right: 5px;
+}
+
+.filtres-form h4 {
+  font-size: 20px;
+}
+
+fieldset {
+  border: none;
+}

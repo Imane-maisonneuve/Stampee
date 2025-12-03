@@ -15,17 +15,25 @@ class View
         $twig->addGlobal('base', BASE);
         $twig->addGlobal('session', $_SESSION);
         if (isset($_SESSION['fingerPrint']) && $_SESSION['fingerPrint'] == md5($_SERVER['HTTP_USER_AGENT'] . $_SERVER['REMOTE_ADDR'])) {
-            $guest = false;
+            $isAuthenticated = true;
         } else {
-            $guest = true;
+            $isAuthenticated = false;
         }
-        $twig->addGlobal('guest', $guest);
+        $twig->addGlobal('isAuthenticated', $isAuthenticated);
 
         echo $twig->render($template . ".php", $data);
     }
 
-    static public function redirect($url)
+    // static public function redirect($url)
+    // {
+    //     header('location:' . BASE . '/' . $url);
+    // }
+
+    static public function redirect($url, $params = [])
     {
+        if (!empty($params)) {
+            $url .= '?' . http_build_query($params);
+        }
         header('location:' . BASE . '/' . $url);
     }
 }

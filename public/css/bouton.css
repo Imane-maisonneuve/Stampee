@@ -1,0 +1,18 @@
+.bouton {
+  background: #8d0801;
+  border: 1px solid #8d0801;
+  color: #f4d58d;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bouton:hover {
+  background: #f4d58d;
+  color: #8d0801;
+}

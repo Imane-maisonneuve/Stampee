@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Providers\View;
 use App\Models\User;
+use App\Models\UserBid;
 use App\Providers\Validator;
 use App\Providers\Auth;
 
@@ -13,14 +14,24 @@ class UserController
     {
         Auth::session();
     }
-
-    public function index()
+    public function index($data = [])
     {
         Auth::session();
-        $user = new User;
-        $select = $user->select('id');
 
-        return View::render("user/index", ['user' => $select]);
+        // if (isset($data['id']) && $data['id'] != null) {
+        //     $user = new User;
+        //     $selectId = $user->selectId($data['id']);
+        //     if ($selectId) {
+        //         $userBid = new UserBid;
+        //         $selectBids = $userBid->selectListe('user_id', $selectId['id']);
+        //         return View::render("user/index", ['bids' => $selectBids]);
+        //     } else {
+        //         return View::render('error', ['msg' => 'User not found!']);
+        //     }
+        // } else {
+        //     return View::render('error', ['msg' => '404 page not found!']);
+        // }
+
     }
 
     public function create()
@@ -30,28 +41,85 @@ class UserController
 
     public function store($data)
     {
+        Auth::session();
         $validator = new Validator;
-        $validator->field('surname', $data['surname'])->required()->min(2)->max(50);
         $validator->field('name', $data['name'])->required()->min(2)->max(50);
-        $validator->field('adress', $data['adress'])->required()->min(10)->max(50);
-        $validator->field('zipcode', $data['zipcode'])->required()->max(7);
+        $validator->field('surname', $data['surname'])->required()->min(2)->max(50);
         $validator->field('phone', $data['phone'])->min(7)->max(20);
         $validator->field('email', $data['email'])->required()->max(50)->email()->unique('User');
         $validator->field('password', $data['password'])->required()->min(6)->max(20);
+        $validator->field('adress', $data['adress'])->required()->min(10)->max(50);
+        $validator->field('zipcode', $data['zipcode'])->required()->max(7);
 
         if ($validator->isSuccess()) {
             $user = new User;
             $data['password'] = $user->hashPassword($data['password']);
             $insert = $user->insert($data);
             if ($insert) {
-                return view::redirect('users');
+                return view::redirect('login');
             } else {
                 return view::render('error');
             }
         } else {
             $errors = $validator->getErrors();
-
             return view::render('user/create', ['errors' => $errors, 'user' => $data]);
+        }
+    }
+
+    public function show($data = [])
+    {
+        Auth::session();
+        if (isset($data['id']) && $data['id'] != null && ($_SESSION['user_id'] == $data['id'])) {
+            $user = new User;
+            $selectId = $user->selectId($data['id']);
+            if ($selectId) {
+                return View::render('user/show', ['user' => $selectId]);
+            } else {
+                return View::render('error', ['msg' => 'User not found!']);
+            }
+        } else {
+            return view::redirect('login');
+        }
+    }
+
+    public function edit($data = [])
+    {
+        Auth::session();
+        if (isset($data['id']) && ($data['id'] != null) && ($_SESSION['user_id'] == $data['id'])) {
+            $user = new User;
+            $selectId = $user->selectId($data['id']);
+            if ($selectId) {
+                return View::render('user/edit', ['user' => $selectId]);
+            } else {
+                return View::render('error', ['msg' => 'User not found!']);
+            }
+        } else {
+            return view::redirect('login');
+        }
+    }
+
+    public function update($data = [], $get = [])
+    {
+        Auth::session();
+        $validator = new Validator;
+        $validator->field('phone', $data['phone'])->min(7)->max(20);
+        $validator->field('adress', $data['adress'])->required()->min(10)->max(50);
+        $validator->field('zipcode', $data['zipcode'])->required()->max(7);
+
+        $user = new User;
+        $selectId = $user->selectId($get['id']);
+
+        if ($validator->isSuccess()) {
+            $update = $user->update($data, $get['id']);
+            if ($update) {
+                $selectId = $user->selectId($get['id']);
+                return view::render('user/show', ['user' => $selectId]);
+            } else {
+                return view::render('error', ['msg' => 'Echec de la mise à jour!']);
+            }
+        } else {
+            $errors = $validator->getErrors();
+            return view::render('user/edit', ['errors' => $errors, 'user' => $selectId]);
         }
     }
 }
