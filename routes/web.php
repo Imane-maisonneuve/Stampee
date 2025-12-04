@@ -1,10 +1,8 @@
 <?php
 
 use App\Routes\Route;
-use App\Controllers\SiteController;
-use App\Controllers\ReservationController;
 use App\Controllers\AuthController;
-use App\Controllers\JournalController;
+
 
 Route::get('/', 'AuctionController@index');
 

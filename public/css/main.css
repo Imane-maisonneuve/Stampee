@@ -59,44 +59,32 @@ select {
   font-size: 14px;
 }
 
-/*-*-*-*-*-*/
-.user-section {
-  max-width: 600px;
-  margin: 40px auto;
-  padding: 20px;
-}
-
-/* Carte contenant les infos */
-.user-card {
-  background-color: #f9f9f9;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* Titre */
-.user-title {
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-/* Lignes d'informations */
-.user-info {
-  font-size: 16px;
-  color: #555;
-  margin: 0;
-}
-
 /* Formulaire */
 .user-form {
   margin-top: 10px;
+  display: inline-block;
 }
 
 [id="user-auction"] {
   display: flex;
   gap: 50px;
+}
+
+.img-box {
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+}
+
+.img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px 0;
 }

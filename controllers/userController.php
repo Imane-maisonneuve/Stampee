@@ -98,7 +98,13 @@ class UserController
             $update = $user->update($data, $get['id']);
             if ($update) {
                 $selectId = $user->selectId($get['id']);
-                return view::render('user/show', ['user' => $selectId]);
+                $auction = new Auction;
+                $selectAuctions = $auction->getAuctions($data['id']);
+                if ($selectAuctions) {
+                    return View::render('user/show', ['user' => $selectId, 'auctions' => $selectAuctions]);
+                } else {
+                    return View::render('user/show', ['user' => $selectId]);
+                }
             } else {
                 return view::render('error', ['msg' => 'Echec de la mise à jour!']);
             }
