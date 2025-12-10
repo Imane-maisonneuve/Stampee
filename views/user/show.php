@@ -53,13 +53,9 @@
                 </div>
             </div>
             {% endfor %}
-
-
-
-
-
-
         </div>
+        <br>
+        <a href="{{base}}/stamp/create" class="bouton-submit">Ajouter un timbre</a>
     </article>
 </div>
 

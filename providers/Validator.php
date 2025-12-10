@@ -89,6 +89,16 @@ class Validator
         return $this;
     }
 
+    public function typeFile($typeFile)
+    {
+        $correct = ['png', 'jpg', 'gif'];
+
+        if (!in_array($typeFile, $correct)) {
+            $this->errors[$this->key] = "L’extension doit être '.png' ou '.jpg' ou 'gif'";
+        }
+        return $this;
+    }
+
     public function isSuccess()
     {
         if (empty($this->errors)) return true;

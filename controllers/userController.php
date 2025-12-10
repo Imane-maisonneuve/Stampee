@@ -28,7 +28,6 @@ class UserController
                     foreach ($selectStamps as $selected) {
                         $mainImage = $image->selectCol('main_image', 'stamp_id', $selected['id']);
                         $selectImage[$selected['id']] =  $mainImage['main_image'];
-                        var_dump($mainImage['main_image']);
                     }
                     if ($selectImage) {
                         return View::render('user/show', ['user' => $selectId, 'stamps' => $selectStamps, 'images' => $selectImage]);
@@ -42,21 +41,6 @@ class UserController
                 $errors = ['msg' => 'Echec d’authentification!'];
                 return view::render('auth/create', ['errors' => $errors]);
             }
-
-
-
-            // if ($selectId) {
-            //     $auction = new Auction;
-            //     $selectAuctions = $auction->getAuctions($data['id']);
-            //     if ($selectAuctions) {
-            //         return View::render('user/show', ['user' => $selectId, 'auctions' => $selectAuctions]);
-            //     } else {
-            //         return View::render('user/show', ['user' => $selectId]);
-            //     }
-            // } else {
-            //     $errors = ['msg' => 'Echec d’authentification!'];
-            //     return view::render('auth/create', ['errors' => $errors]);
-            // }
         } else {
             return view::redirect('login');
         }

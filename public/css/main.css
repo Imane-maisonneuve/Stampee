@@ -42,8 +42,10 @@ select {
 
 .bouton-submit {
   min-width: 100px;
-  background: #83a396;
-  color: #fff;
+  /* background: #83a396; */
+  background: #8d0801;
+  /* color: #fff; */
+  color: #f4d58d;
   border: none;
   cursor: pointer;
   margin-top: 20px;
@@ -54,6 +56,10 @@ select {
   text-align: center;
 }
 
+.bouton-submit:hover {
+  background: #f4d58d;
+  color: #8d0801;
+}
 .error {
   color: red;
   font-size: 14px;
