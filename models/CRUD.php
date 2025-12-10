@@ -43,6 +43,17 @@ abstract class CRUD extends \PDO
         return $stmt->fetchAll();
     }
 
+    //  Requete pour selectionner une seule colonne
+    final public function selectCol($fieldToSelect, $fieldCondition, $value, $order = 'desc', $orderField = 'id')
+    {
+        $sql = "SELECT $fieldToSelect FROM $this->table WHERE $fieldCondition = :$fieldCondition order by $orderField $order limit 1";
+        $stmt = $this->prepare($sql);
+        $stmt->bindValue(":$fieldCondition", $value);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
+
     final public function insert($data)
     {
         $data_keys = array_fill_keys($this->fillable, '');

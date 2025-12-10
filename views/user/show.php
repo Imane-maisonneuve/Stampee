@@ -30,24 +30,35 @@
         </div>
     </div>
     <article>
-        <h1>Mes enchères :</h1>
+        <h1>Mes timbres :</h1>
         <div class="grille">
-            {% for auction in auctions %}
+            {% for stamp in stamps %}
             <div class="carte carrousel-carte">
                 <div class="carte-detail">
                     <picture>
-                        <img class="img-box" src="{{asset}}img/stamp_holder.png" alt="" />
+                        <img class="img-box" src="{{asset}}img/{{images[stamp.id]}}" alt="" />
                     </picture>
                     <section class="carte-information">
-                        <h2 class="carte-titre">{{ auction.name }}</h2>
-                        <p>Prix plancher : {{ auction.price_floor }} $</p>
-                        <p>Mise actuelle : {{ auction.current_bid_amount }}$</p>
-                        <p>Date de fin : {{ auction.date_end }}</p>
-                        <a class="bouton">Enchérir</a>
+                        <h2 class="carte-titre">{{ stamp.name }}</h2>
+                        <p>id : {{ stamp.id }}</p>
+                        <p>Date de creation : {{ stamp.date_creation }} $</p>
+                        <div class="actions">
+                            <a href="{{base}}/stamp/edit?id={{ stamp.id }}" class="bouton">Modifier</a>
+                            <form class="user-form" action="{{base}}/stamp/delete" method="post">
+                                <input type="hidden" name="id" value="{{ stamp.id }}">
+                                <input type="submit" value="Supprimer" class="bouton">
+                            </form>
+                        </div>
                     </section>
                 </div>
             </div>
             {% endfor %}
+
+
+
+
+
+
         </div>
     </article>
 </div>

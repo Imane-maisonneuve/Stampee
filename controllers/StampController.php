@@ -5,12 +5,13 @@ namespace App\Controllers;
 use App\Providers\View;
 use App\Models\User;
 use App\Models\Auction;
-use App\Models\Stamp;
-use App\Models\Image;
+use App\Models\Origin;
+use App\Models\State;
+use App\Models\Color;
 use App\Providers\Validator;
 use App\Providers\Auth;
 
-class UserController
+class StampController
 {
     public function show($data = [])
     {
@@ -21,20 +22,10 @@ class UserController
             $selectId = $user->selectId($data['id']);
 
             if ($selectId) {
-                $stamp = new Stamp;
-                $selectStamps = $stamp->selectListe('user_id', $data['id']);
-                if ($selectStamps) {
-                    $image = new Image;
-                    foreach ($selectStamps as $selected) {
-                        $mainImage = $image->selectCol('main_image', 'stamp_id', $selected['id']);
-                        $selectImage[$selected['id']] =  $mainImage['main_image'];
-                        var_dump($mainImage['main_image']);
-                    }
-                    if ($selectImage) {
-                        return View::render('user/show', ['user' => $selectId, 'stamps' => $selectStamps, 'images' => $selectImage]);
-                    } else {
-                        return View::render('user/show', ['user' => $selectId, 'stamps' => $selectStamps]);
-                    }
+                $auction = new Auction;
+                $selectAuctions = $auction->getAuctions($data['id']);
+                if ($selectAuctions) {
+                    return View::render('user/show', ['user' => $selectId, 'auctions' => $selectAuctions]);
                 } else {
                     return View::render('user/show', ['user' => $selectId]);
                 }
@@ -42,21 +33,6 @@ class UserController
                 $errors = ['msg' => 'Echec d’authentification!'];
                 return view::render('auth/create', ['errors' => $errors]);
             }
-
-
-
-            // if ($selectId) {
-            //     $auction = new Auction;
-            //     $selectAuctions = $auction->getAuctions($data['id']);
-            //     if ($selectAuctions) {
-            //         return View::render('user/show', ['user' => $selectId, 'auctions' => $selectAuctions]);
-            //     } else {
-            //         return View::render('user/show', ['user' => $selectId]);
-            //     }
-            // } else {
-            //     $errors = ['msg' => 'Echec d’authentification!'];
-            //     return view::render('auth/create', ['errors' => $errors]);
-            // }
         } else {
             return view::redirect('login');
         }
