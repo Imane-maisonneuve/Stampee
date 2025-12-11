@@ -20,7 +20,7 @@ class AuctionController
         $stampsSelect = $stamp->select();
 
         $image = new Image;
-
+        $selectImage = [];
         foreach ($stampsSelect as $selected) {
             $mainImage = $image->selectCol('main_image', 'stamp_id', $selected['id']);
             $selectImage[$selected['id']] =  $mainImage['main_image'];
