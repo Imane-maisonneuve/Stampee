@@ -21,28 +21,39 @@ class ImageController
     public function store($data)
     {
         Auth::session();
-
-
-        $dir = "public/img/";
+        $dir = 'public/img/';
         $mainImage = $_FILES['main_image']['name'];
         $mainImageTmp = $_FILES['main_image']['tmp_name'];
-        $typeFileMainImage = explode(".", $mainImage)[1];
 
         $additionalImage = $_FILES['additional_image']['name'];
         $additionalImageTmp = $_FILES['additional_image']['tmp_name'];
-        $typeFileAdditionalImage = explode(".", $additionalImage)[1];
 
+        if ($_FILES['main_image']['name'] != '') {
+            $typeFileMainImage = explode(".", $mainImage)[1];
+        }
 
         $validator = new Validator;
         $validator->field('main_image', $_FILES['main_image'])->required()->typeFile($typeFileMainImage);
-        $validator->field('additional_image', $_FILES['additional_image'])->typeFile($typeFileAdditionalImage);
+
+        if (($_FILES['additional_image']['name'] != '')) {
+            $typeFileAdditionalImage = explode(".", $additionalImage)[1];
+            $validator->field('additional_image', $_FILES['additional_image'])->typeFile($typeFileAdditionalImage);
+        }
 
         if ($validator->isSuccess()) {
+
             $destinationMain = $dir . $mainImage;
             $destinationAdd = $dir . $additionalImage;
-            if ((move_uploaded_file($mainImageTmp, $destinationMain)) && (move_uploaded_file($additionalImageTmp, $destinationAdd))) {
+            if (move_uploaded_file($mainImageTmp, $destinationMain)) {
+
+                $imageAddinsert = '';
+                if (move_uploaded_file($additionalImageTmp, $destinationAdd)) {
+                    $imageAddinsert = $additionalImage;
+                }
+
                 $image = new Image;
-                $insert = $image->insert(['main_image' => $_FILES['main_image']['name'], 'additional_image' => $_FILES['additional_image']['name'], 'stamp_id' => $data['stamp_id']]);
+                $insert = $image->insert(['main_image' => $mainImage, 'additional_image' => $imageAddinsert, 'stamp_id' => $data['stamp_id']]);
+
                 if ($insert) {
                     $user = new User;
                     $selectId = $user->selectId($_SESSION['user_id']);
@@ -57,62 +68,111 @@ class ImageController
                         }
                         if ($selectImage) {
                             return View::render('user/show', ['user' => $selectId, 'stamps' => $selectStamps, 'images' => $selectImage]);
-                        } else {
+                        }
+                        // TODO:gerer autrement
+                        else {
                             return View::render('user/show', ['user' => $selectId, 'stamps' => $selectStamps]);
                         }
                     } else {
                         return View::render('user/show', ['user' => $selectId]);
                     }
                 } else {
-                    return view::render('error');
+                    $errors = $validator->getErrors();
+                    return view::render('image/create', ['errors' => $errors, 'stamp_id' => $data['stamp_id']]);
                 }
+            } else {
+                $errors = $validator->getErrors();
+                return view::render('image/create', ['errors' => $errors, 'stamp_id' => $data['stamp_id']]);
             }
         } else {
             $errors = $validator->getErrors();
-            return view::render('image/create', ['errors' => $errors, 'stamp' => $data]);
+            return view::render('image/create', ['errors' => $errors, 'stamp_id' => $data['stamp_id']]);
+        }
+    }
+
+
+    public function edit($data = [])
+    {
+        Auth::session();
+        if (isset($data['stamp_id']) && $data['stamp_id'] != null) {
+
+            $image = new Image;
+            $imageMain = $image->selectCol('main_image', 'stamp_id', $data['stamp_id']);
+
+            $imageAdd = $image->selectCol('additional_image', 'stamp_id', $data['stamp_id']);
+            $selectImage = ['main_image' => $imageMain['main_image'], 'additional_image' => $imageAdd['additional_image']];
+
+            return View::render('image/edit', ['stamp_id' => $data['stamp_id'], 'image' => $selectImage]);
+        } else {
+            return View::render('error', ['msg' => 'Identifiant de stamp manquant ou invalide!']);
+        }
+    }
+
+    public function update($data, $get = [])
+    {
+        Auth::session();
+
+        $image = new Image;
+        $imageSelect = $image->selectListe('stamp_id', $data['stamp_id'])[0];
+
+        $dir = 'public/img/';
+
+        $validator = new Validator;
+
+        if ($_FILES['main_image']['name'] != '') {
+            $mainImage = $_FILES['main_image']['name'];
+            $mainImageTmp = $_FILES['main_image']['tmp_name'];
+            $typeFileMainImage = explode(".", $mainImage)[1];
+            $validator->field('main_image', $_FILES['main_image'])->required()->typeFile($typeFileMainImage);
+
+            if ($validator->isSuccess()) {
+                $destinationMain = $dir . $mainImage;
+                if (move_uploaded_file($mainImageTmp, $destinationMain)) {
+                    $update = $image->update(['main_image' => $mainImage, 'additional_image' => $imageSelect['additional_image'], 'stamp_id' => $imageSelect['stamp_id']], $imageSelect['id']);
+                }
+            } else {
+                $errors = $validator->getErrors();
+                return view::render('image/edit', ['errors' => $errors, 'stamp_id' => $data['stamp_id']]);
+            }
+        }
+        if (($_FILES['additional_image']['name'] != '')) {
+            $additionalImage = $_FILES['additional_image']['name'];
+            $additionalImageTmp = $_FILES['additional_image']['tmp_name'];
+            $typeFileAdditionalImage = explode(".", $additionalImage)[1];
+            $validator->field('additional_image', $_FILES['additional_image'])->typeFile($typeFileAdditionalImage);
+            if ($validator->isSuccess()) {
+                $destinationAdd = $dir . $additionalImage;
+                if (move_uploaded_file($additionalImageTmp, $destinationAdd)) {
+                    $update = $image->update(['main_image' => $imageSelect['main_image'], 'additional_image' => $additionalImage, 'stamp_id' => $imageSelect['stamp_id']], $imageSelect['id']);
+                }
+            } else {
+                $errors = $validator->getErrors();
+                return view::render('image/edit', ['errors' => $errors, 'stamp_id' => $data['stamp_id']]);
+            }
         }
 
-        // $validator = new Validator;
-        // $validator->field('name', $data['name'])->required()->min(10)->max(100);
-        // $validator->field('certified', $data['certified'])->required();
-        // $validator->field('print_run', $data['print_run'])->required();
-        // $validator->field('height', $data['height'])->required();
-        // $validator->field('width', $data['width'])->required();
-        // $validator->field('origin_id', $data['origin_id'])->required();
-        // $validator->field('color_id', $data['color_id'])->required();
-        // $validator->field('state_id', $data['state_id'])->required();
+        $user = new User;
+        $selectId = $user->selectId($_SESSION['user_id']);
 
-        // if ($validator->isSuccess()) {
-        //     $image = new Image;
+        $stamp = new Stamp;
 
-        //     $insert = $image->insert($data);
-        //     if ($insert) {
-        //         $user = new User;
-        //         $selectId = $user->selectId($_SESSION['user_id']);
+        $selectStamps = $stamp->selectListe('user_id', $selectId['id']);
 
-        //         $stamp = new Stamp;
-        //         $selectStamps = $stamp->selectListe('user_id', $selectId['id']);
-        //         if ($selectStamps) {
-        //             $image = new Image;
-        //             foreach ($selectStamps as $selected) {
-        //                 $mainImage = $image->selectCol('main_image', 'stamp_id', $selected['id']);
-        //                 $selectImage[$selected['id']] =  $mainImage['main_image'];
-        //             }
-        //             if ($selectImage) {
-        //                 return View::render('user/show', ['user' => $selectId, 'stamps' => $selectStamps, 'images' => $selectImage]);
-        //             } else {
-        //                 return View::render('user/show', ['user' => $selectId, 'stamps' => $selectStamps]);
-        //             }
-        //         } else {
-        //             return View::render('user/show', ['user' => $selectId]);
-        //         }
-        //     } else {
-        //         return view::render('error');
-        //     }
-        // } else {
-        //     $errors = $validator->getErrors();
-        //     return view::render('image/create', ['errors' => $errors, 'stamp' => $data]);
-        // }
-
+        if ($selectStamps) {
+            $image = new Image;
+            foreach ($selectStamps as $selected) {
+                $mainImage = $image->selectCol('main_image', 'stamp_id', $selected['id']);
+                $selectImage[$selected['id']] =  $mainImage['main_image'];
+            }
+            if ($selectImage) {
+                return View::render('user/show', ['user' => $selectId, 'stamps' => $selectStamps, 'images' => $selectImage]);
+            }
+            // TODO:gerer autrement
+            else {
+                return View::render('user/show', ['user' => $selectId, 'stamps' => $selectStamps]);
+            }
+        } else {
+            return View::render('user/show', ['user' => $selectId]);
+        }
     }
 }

@@ -53,7 +53,6 @@ abstract class CRUD extends \PDO
         return $stmt->fetch();
     }
 
-
     final public function insert($data)
     {
         $data_keys = array_fill_keys($this->fillable, '');
@@ -106,6 +105,20 @@ abstract class CRUD extends \PDO
         $sql = "DELETE FROM $this->table WHERE $this->primaryKey = :$this->primaryKey";
         $stmt = $this->prepare($sql);
         $stmt->bindValue("$this->primaryKey", $value);
+        $stmt->execute();
+        if ($stmt) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function deleteByCol($field, $value)
+    {
+
+        $sql = "DELETE FROM $this->table WHERE $field = :$field";
+        $stmt = $this->prepare($sql);
+        $stmt->bindValue(":$field", $value);
         $stmt->execute();
         if ($stmt) {
             return true;

@@ -40,15 +40,18 @@
                     </picture>
                     <section class="carte-information">
                         <h2 class="carte-titre">{{ stamp.name }}</h2>
-                        <p>id : {{ stamp.id }}</p>
                         <p>Date de creation : {{ stamp.date_creation }} $</p>
+                        {% if isAuction[stamp.id] == 1 %}
+                        <p>Auction !!</p>
+                        {% else %}
                         <div class="actions">
                             <a href="{{base}}/stamp/edit?id={{ stamp.id }}" class="bouton">Modifier</a>
                             <form class="user-form" action="{{base}}/stamp/delete" method="post">
-                                <input type="hidden" name="id" value="{{ stamp.id }}">
+                                <input type="hidden" name="stamp_id" value="{{ stamp.id }}">
                                 <input type="submit" value="Supprimer" class="bouton">
                             </form>
                         </div>
+                        {% endif %}
                     </section>
                 </div>
             </div>

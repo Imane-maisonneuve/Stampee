@@ -94,7 +94,7 @@ class Validator
         $correct = ['png', 'jpg', 'gif'];
 
         if (!in_array($typeFile, $correct)) {
-            $this->errors[$this->key] = "L’extension doit être '.png' ou '.jpg' ou 'gif'";
+            $this->errors[$this->key] = "L’extension doit être '.png' ou '.jpg' ou '.gif'";
         }
         return $this;
     }

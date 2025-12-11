@@ -20,6 +20,8 @@ class UserController
             $user = new User;
             $selectId = $user->selectId($data['id']);
 
+            $auction = new Auction;
+            $isAuction = [];
             if ($selectId) {
                 $stamp = new Stamp;
                 $selectStamps = $stamp->selectListe('user_id', $data['id']);
@@ -28,9 +30,13 @@ class UserController
                     foreach ($selectStamps as $selected) {
                         $mainImage = $image->selectCol('main_image', 'stamp_id', $selected['id']);
                         $selectImage[$selected['id']] =  $mainImage['main_image'];
+                        $auctionselect = $auction->selectCol('stamp_id', 'stamp_id', $selected['id']);
+                        if ($auctionselect) {
+                            $isAuction[$selected['id']] = 1;
+                        }
                     }
                     if ($selectImage) {
-                        return View::render('user/show', ['user' => $selectId, 'stamps' => $selectStamps, 'images' => $selectImage]);
+                        return View::render('user/show', ['user' => $selectId, 'stamps' => $selectStamps, 'images' => $selectImage, 'isAuction' => $isAuction]);
                     } else {
                         return View::render('user/show', ['user' => $selectId, 'stamps' => $selectStamps]);
                     }

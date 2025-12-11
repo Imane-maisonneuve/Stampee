@@ -21,10 +21,14 @@ Route::get('/logout', 'AuthController@delete');
 
 Route::get('/stamp/create', 'StampController@create');
 Route::post('/stamp/create', 'StampController@store');
+Route::get('/stamp/edit', 'StampController@edit');
+Route::post('/stamp/edit', 'StampController@update');
+Route::post('/stamp/delete', 'StampController@delete');
 
 
 Route::get('/image/create', 'ImageController@create');
 Route::post('/image/create', 'ImageController@store');
-
+Route::get('/image/edit', 'ImageController@edit');
+Route::post('/image/edit', 'ImageController@update');
 
 Route::dispatch();
