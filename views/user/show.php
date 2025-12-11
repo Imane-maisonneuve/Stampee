@@ -40,7 +40,7 @@
                     </picture>
                     <section class="carte-information">
                         <h2 class="carte-titre">{{ stamp.name }}</h2>
-                        <p>Date de creation : {{ stamp.date_creation }} $</p>
+                        <p>Date de creation : {{ stamp.date_creation }}</p>
                         {% if isAuction[stamp.id] == 1 %}
                         <p>Auction !!</p>
                         {% else %}
