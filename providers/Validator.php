@@ -63,8 +63,8 @@ class Validator
 
     public function bigger($limit)
     {
-        if ($this->value > $limit) {
-            $this->errors[$this->key] = "$this->name doit être inférieur ou égal à $limit.";
+        if ($this->value <= $limit) {
+            $this->errors[$this->key] = "La valeur doit être supérieure à $limit.";
         }
         return $this;
     }

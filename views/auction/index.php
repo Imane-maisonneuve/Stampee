@@ -108,12 +108,9 @@
                     </picture>
                     <section class="carte-information">
                         <h2 class="carte-titre">{{ stamp.name }}</h2>
-                        <p>Mise actuelle :<strong>{{ auction.current_bid_amount }} $</strong></p>
+                        <p>Mise actuelle :<strong>{{ amounts[auction.id] }} $</strong></p>
                         <div class="actions">
-                            <form class="user-form" action="" method="post">
-                                <input type="hidden" name="auction_id" value="{{ auction.id }}">
-                                <input type="submit" value="Enchérir" class="bouton">
-                            </form>
+                            <a href="{{base}}/auction/show?id={{ auction.id }}" class="bouton">Enchérir</a>
                         </div>
                         <small>Date de fin : {{ auction.date_end }}</small>
                     </section>

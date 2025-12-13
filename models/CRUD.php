@@ -34,6 +34,7 @@ abstract class CRUD extends \PDO
         }
     }
 
+    // Requete pour selectionner plusieurs lignes selon une colonne
     final public function selectListe($field, $value,  $order = 'desc', $orderField = 'id')
     {
         $sql = "SELECT * FROM $this->table WHERE $field = :$field order by $orderField $order";
@@ -47,6 +48,16 @@ abstract class CRUD extends \PDO
     final public function selectCol($fieldToSelect, $fieldCondition, $value, $order = 'desc', $orderField = 'id')
     {
         $sql = "SELECT $fieldToSelect FROM $this->table WHERE $fieldCondition = :$fieldCondition order by $orderField $order limit 1";
+        $stmt = $this->prepare($sql);
+        $stmt->bindValue(":$fieldCondition", $value);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
+    // Requete pour selectionner la valeur maximale d'une colonne
+    final public function max($fieldToSelect, $fieldCondition, $value, $order = 'desc', $orderField = 'id')
+    {
+        $sql = "SELECT MAX($fieldToSelect) FROM $this->table WHERE $fieldCondition = :$fieldCondition order by $orderField $order limit 1";
         $stmt = $this->prepare($sql);
         $stmt->bindValue(":$fieldCondition", $value);
         $stmt->execute();
@@ -113,6 +124,7 @@ abstract class CRUD extends \PDO
         }
     }
 
+    // Requete pour supprimer selon une colonne autre que la PK
     public function deleteByCol($field, $value)
     {
 

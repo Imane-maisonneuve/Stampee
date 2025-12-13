@@ -42,7 +42,7 @@
                         <h2 class="carte-titre">{{ stamp.name }}</h2>
                         <p>Date de creation : {{ stamp.date_creation }}</p>
                         {% if isAuction[stamp.id] == 1 %}
-                        <p>Auction !!</p>
+                        <marquee>Timbre en enchere !!</marquee>
                         {% else %}
                         <div class="actions">
                             <a href="{{base}}/stamp/edit?id={{ stamp.id }}" class="bouton">Modifier</a>

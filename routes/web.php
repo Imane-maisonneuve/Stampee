@@ -5,6 +5,8 @@ use App\Controllers\AuthController;
 
 
 Route::get('/', 'AuctionController@index');
+Route::get('/auction/show', 'AuctionController@show');
+Route::post('/auction/show', 'UserBidController@store');
 
 Route::get('/user/show', 'UserController@show');
 Route::get('/user/create', 'UserController@create');
