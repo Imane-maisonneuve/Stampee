@@ -66,6 +66,17 @@ class AuctionController
         $userBid = new UserBid;
         $userBidSelect = $userBid->selectCol('bid_amount', 'auction_id', $auctionSelect['id']);
 
+        $user = new User;
+        $historiqueBids = $userBid->selectListe('auction_id', $data['id']);
+
+        $historiqueUsers = [];
+
+        if ($historiqueBids) {
+            foreach ($historiqueBids as $selected) {
+                $userSelect = $user->selectId($selected['user_id']);
+                $historiqueUsers[$selected['user_id']] =  mb_substr($userSelect['surname'], 0, 1) . '.' . $userSelect['name'];
+            }
+        }
         return View::render('auction/show', [
             'auction' => $auctionSelect,
             'stamp' => $stampSelect,
@@ -73,7 +84,9 @@ class AuctionController
             'origin' => $originSelect,
             'color' => $colorSelect,
             'state' => $stateSelect,
-            'userBid' => $userBidSelect
+            'userBid' => $userBidSelect,
+            'historiqueBids' => $historiqueBids,
+            'historiqueUsers' => $historiqueUsers
         ]);
     }
 }

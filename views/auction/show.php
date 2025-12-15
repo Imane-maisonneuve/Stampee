@@ -60,19 +60,15 @@
 
                 <div class="enchere-detail">
                     <div class="enchere-infos">
-                        <p>Expédition</p>
-                        <p>Livraison</p>
+                        {% if historiqueBids %}
+                        <p>Historique des mises :</p>
+                        {% endif %}
                     </div>
                     <div class="enchere-infos">
-                        <p>: Via Post Canada.</p>
-                        <p>: 7 jours apres la fermeture de l'enchère.</p>
+                        {% for historiqueBid in historiqueBids %}
+                        <p> {{ historiqueBid.bid_date }}, {{ historiqueUsers[historiqueBid.user_id] }} a misé {{ historiqueBid.bid_amount }}$.</p>
+                        {% endfor %}
                     </div>
-                </div>
-                <div class="mode-payement">
-                    <img src="{{asset}}img/visa.png" alt="" />
-                    <img src="{{asset}}img/ppal.png" alt="" />
-                    <img src="{{asset}}img/mastercard.png" alt="" />
-                    <img src="{{asset}}img/gpay.png" alt="" />
                 </div>
             </section>
         </div>

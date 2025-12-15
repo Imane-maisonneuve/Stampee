@@ -10,6 +10,7 @@ use App\Models\Origin;
 use App\Models\Color;
 use App\Models\State;
 use App\Models\UserBid;
+use App\Models\User;
 use App\Providers\Auth;
 use App\Providers\Validator;
 
@@ -44,7 +45,6 @@ class UserBidController
             }
         } else {
             $errors = $validator->getErrors();
-            $auction = new Auction;
 
             $stamp = new Stamp;
             $stampSelect = $stamp->selectId($auctionSelect['stamp_id']);
@@ -64,6 +64,18 @@ class UserBidController
             $userBid = new UserBid;
             $userBidSelect = $userBid->selectCol('bid_amount', 'auction_id', $auctionSelect['id']);
 
+            $user = new User;
+            $historiqueBids = $userBid->selectListe('auction_id', $data['auction_id']);
+
+            $historiqueUsers = [];
+
+            if ($historiqueBids) {
+                foreach ($historiqueBids as $selected) {
+                    $userSelect = $user->selectId($selected['user_id']);
+                    $historiqueUsers[$selected['user_id']] =  mb_substr($userSelect['surname'], 0, 1) . '.' . $userSelect['name'];
+                }
+            }
+
             return View::render('auction/show', [
                 'errors' => $errors,
                 'auction' => $auctionSelect,
@@ -72,7 +84,9 @@ class UserBidController
                 'origin' => $originSelect,
                 'color' => $colorSelect,
                 'state' => $stateSelect,
-                'userBid' => $userBidSelect
+                'userBid' => $userBidSelect,
+                'historiqueBids' => $historiqueBids,
+                'historiqueUsers' => $historiqueUsers
             ]);
         }
     }
