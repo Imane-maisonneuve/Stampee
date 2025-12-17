@@ -31,6 +31,7 @@ class AuctionController
         }
 
         $userBid = new UserBid;
+        $selectBid_amount = [];
         foreach ($auctionsSelect as $selected) {
             $bid_amount = $userBid->selectCol('bid_amount', 'auction_id', $selected['id']);
             if ($bid_amount) {

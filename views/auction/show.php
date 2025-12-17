@@ -13,7 +13,7 @@
                     <h2>Description :</h2>
                     <div>
                         <p><strong>Nom:</strong> {{ stamp.name }}.</p>
-                        <p><strong>Date :</strong> {{ stamp.name }}.</p>
+                        <p><strong>Date :</strong> {{ stamp.year_creation }}.</p>
                         <p><strong>Pays :</strong> {{origin.pays}}.</p>
                         <p><strong>Couleur(s) :</strong> {{color.color}}.</p>
                         <p><strong>Condition :</strong> {{state.state}}.</p>
@@ -45,6 +45,7 @@
                 </div>
 
                 {%if isAuthenticated %}
+                {%if auction.date_end|date("U") > "now"|date("U") and stamp.user_id != session.user_id %}
                 <form class="bid-form" method="post">
                     <input type="hidden" name="user_id" value="{{ session.user_id }}">
                     <input type="hidden" name="auction_id" value="{{ auction.id }}">
@@ -54,10 +55,10 @@
                     {% endif %}
                     <input type="submit" value="Enchérir" class="bouton">
                 </form>
+                {% endif %}
                 {% else %}
                 <a href="{{base}}/login" class="bouton">Se connecter pour enchérir</a>
                 {% endif %}
-
                 <div class="enchere-detail">
                     <div class="enchere-infos">
                         {% if historiqueBids %}

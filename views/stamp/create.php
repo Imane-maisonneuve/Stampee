@@ -11,17 +11,23 @@
         <span class="error">{{ errors.name }}</span>
         {% endif %}
 
+        <label>Année de creation</label>
+        <input type="text" name="year_creation" value="{{ stamp.year_creation }}">
+        {% if errors.year_creation is defined %}
+        <span class="error">{{ errors.year_creation }}</span>
+        {% endif %}
+
 
         <label>Certifié ?</label><br>
 
         <label>
-            <input type="radio" name="certified" value="1"
+            <input type="radio" name="certified" value=1
                 {% if stamp.certifie is defined and stamp.certifie == 1 %} checked {% endif %}>
             Oui
         </label>
 
         <label>
-            <input type="radio" name="certified" value="0"
+            <input type="radio" name="certified" value=0
                 {% if stamp.certifie is not defined or stamp.certifie == 0 %} checked {% endif %}>
             Non
         </label>

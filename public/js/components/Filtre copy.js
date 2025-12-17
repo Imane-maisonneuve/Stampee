@@ -77,21 +77,31 @@ class Filtre {
     if (totalFiltres > 0) {
       for (const categorie in listFiltres) {
         if (categorie === "status") {
-          listFiltres["status"].forEach((statu) => {
-            switch (statu) {
+          listFiltres["status"].forEach((status) => {
+            switch (status) {
               case "en_cours":
                 this.#listeAuctionsClone.forEach((auction) => {
-                  if (auction.date_end > dateFormatee) {
-                    nouvelleListAuctions.push(auction);
-                  }
+                  this.#listeStampsClone.forEach((stamp) => {
+                    if (
+                      auction.stamp_id === stamp.id &&
+                      auction.date_end > dateFormatee
+                    ) {
+                      nouvelleListAuctions.push(auction);
+                    }
+                  });
                 });
                 break;
 
               case "archive":
                 this.#listeAuctionsClone.forEach((auction) => {
-                  if (auction.date_end < dateFormatee) {
-                    nouvelleListAuctions.push(auction);
-                  }
+                  this.#listeStampsClone.forEach((stamp) => {
+                    if (
+                      auction.stamp_id === stamp.id &&
+                      auction.date_end < dateFormatee
+                    ) {
+                      nouvelleListAuctions.push(auction);
+                    }
+                  });
                 });
                 break;
             }
@@ -164,10 +174,6 @@ class Filtre {
                   });
                 });
                 break;
-
-              case "autre":
-                nouvelleListAuctions.push(auction);
-                break;
             }
           });
         }
@@ -197,7 +203,7 @@ class Filtre {
               case "comme-neuf":
                 this.#listeAuctionsClone.forEach((auction) => {
                   this.#listeStampsClone.forEach((stamp) => {
-                    if (auction.stamp_id === stamp.id && stamp.state_id === 4) {
+                    if (auction.stamp_id === stamp.id && stamp.state_id === 3) {
                       nouvelleListAuctions.push(auction);
                     }
                   });
@@ -207,7 +213,7 @@ class Filtre {
               case "Bon-Etat":
                 this.#listeAuctionsClone.forEach((auction) => {
                   this.#listeStampsClone.forEach((stamp) => {
-                    if (auction.stamp_id === stamp.id && stamp.state_id === 5) {
+                    if (auction.stamp_id === stamp.id && stamp.state_id === 4) {
                       nouvelleListAuctions.push(auction);
                     }
                   });

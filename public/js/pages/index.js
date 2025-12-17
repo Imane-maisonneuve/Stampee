@@ -13,13 +13,15 @@ function initialiser() {
   const asset = data.asset;
   const base = data.base;
   const amounts = data.amounts;
+  const session_user_id = data.session_user_id;
   const application = new Application(
     auctions,
     stamps,
     images,
     asset,
     base,
-    amounts
+    amounts,
+    session_user_id
   );
 }
 

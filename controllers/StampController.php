@@ -34,6 +34,7 @@ class StampController
         Auth::session();
         $validator = new Validator;
         $validator->field('name', $data['name'])->required()->min(10)->max(100);
+        $validator->field('year_creation', $data['year_creation'])->required()->min(4)->max(4);
         $validator->field('certified', $data['certified'])->required();
         $validator->field('print_run', $data['print_run'])->required()->int();
         $validator->field('height', $data['height'])->required()->int();
@@ -132,13 +133,10 @@ class StampController
             $imageSelect = $image->selectListe('stamp_id', $data['stamp_id'])[0];
             $deleteImage = $image->delete($imageSelect['id']);
 
-            $stampFavoris = new StampFavoris;
-            $deleteStampFavoris = $stampFavoris->deleteByCol('stamp_id', $data['stamp_id']);
-
             $stamp = new Stamp;
             $deleteStamp = $stamp->delete($data['stamp_id']);
 
-            if ($deleteImage && $deleteStampFavoris && $deleteStamp) {
+            if ($deleteImage && $deleteStamp) {
                 return View::redirect('user/show', ['id' => $_SESSION['user_id']]);
             } else {
                 return View::render('error', ['msg' => 'Echec de la suppression!']);

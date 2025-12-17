@@ -7,11 +7,20 @@ class Application {
   asset;
   base;
   amounts;
+  session_user_id;
   #listeAuctionsHTML;
   #conteneurHTML;
   #filtre;
 
-  constructor(listeAuctions, listeStamps, listeImages, asset, base, amounts) {
+  constructor(
+    listeAuctions,
+    listeStamps,
+    listeImages,
+    asset,
+    base,
+    amounts,
+    session_user_id
+  ) {
     this.listeAuctions = listeAuctions;
     this.listeAllAuctions = listeAuctions;
     this.listeStamps = listeStamps;
@@ -19,6 +28,7 @@ class Application {
     this.asset = asset;
     this.base = base;
     this.amounts = amounts;
+    this.session_user_id = session_user_id;
 
     this.#conteneurHTML = document.querySelector("[data-application]");
     this.#listeAuctionsHTML = this.#conteneurHTML.querySelector(
@@ -49,7 +59,27 @@ class Application {
   injecterHTML(auction, stamp) {
     const image = this.listeImages[stamp.id];
     const amount = this.amounts[auction.id];
-    const gabarit = `<div class="carte carrousel-carte">
+    const dateFormatee = new Date().toISOString().slice(0, 10);
+    let gabarit = "";
+    if (auction["date_end"] > dateFormatee) {
+      if (stamp["user_id"] == this.session_user_id) {
+        gabarit = `<div class="carte carrousel-carte">
+                <div class="carte-detail">
+                    <picture>
+                        <img class="img-box" src="${this.asset}img/${image}" alt="" />
+                    </picture>
+                    <section class="carte-information">
+                        <h2 class="carte-titre">${stamp.name}</h2>
+                        <p>Mise actuelle :<strong>${amount}$</strong></p>
+                        <div class="actions">
+                            <a href="${this.base}/auction/show?id=${auction.id}" class="bouton">Voir</a>
+                        </div>
+                        <small>Date de fin : ${auction.date_end}</small>
+                    </section>
+                </div>
+            </div>`;
+      } else {
+        gabarit = `<div class="carte carrousel-carte">
                 <div class="carte-detail">
                     <picture>
                         <img class="img-box" src="${this.asset}img/${image}" alt="" />
@@ -64,6 +94,25 @@ class Application {
                     </section>
                 </div>
             </div>`;
+      }
+    } else {
+      gabarit = `<div class="carte carrousel-carte">
+                <div class="carte-detail">
+                    <picture>
+                        <img class="img-box" src="${this.asset}img/${image}" alt="" />
+                    </picture>
+                    <section class="carte-information">
+                        <h2 class="carte-titre">${stamp.name}</h2>
+                        <p>Mise actuelle :<strong>${amount}$</strong></p>
+                        <div class="actions">
+                            <a href="${this.base}/auction/show?id=${auction.id}" class="bouton">Voir</a>
+                        </div>
+                        <small>Date de fin : ${auction.date_end}</small>
+                        <marquee>Enchère terminée !!</marquee>
+                    </section>
+                </div>
+            </div>`;
+    }
     this.#listeAuctionsHTML.insertAdjacentHTML("beforeend", gabarit);
   }
 }

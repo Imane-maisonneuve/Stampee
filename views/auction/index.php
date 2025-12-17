@@ -7,7 +7,8 @@
   images:images,
   asset:asset,
   base:base,
-  amounts:amounts
+  amounts:amounts,
+  session_user_id : session.user_id
 }|json_encode|raw }}
 </script>
 
@@ -60,11 +61,6 @@
                         type="checkbox"
                         name="origine"
                         value="usa" />États-Unis
-                </label>
-                <label><input data-categorie="origine"
-                        type="checkbox"
-                        name="origine"
-                        value="autre" />Monde entier
                 </label>
             </fieldset>
             <fieldset class="filtres-form">
@@ -123,9 +119,15 @@
                     <section class="carte-information">
                         <h2 class="carte-titre">{{ stamp.name }}</h2>
                         <p>Mise actuelle :<strong>{{ amounts[auction.id] }} $</strong></p>
+                        {% if auction.date_end|date("U") < "now"|date("U")  %}
+                        <div class="actions">
+                            <a href="{{base}}/auction/show?id={{ auction.id }}" class="bouton">Terminé</a>
+                        </div>
+                        {% else %}
                         <div class="actions">
                             <a href="{{base}}/auction/show?id={{ auction.id }}" class="bouton">Enchérir</a>
                         </div>
+                        {% endif %}
                         <small>Date de fin : {{ auction.date_end }}</small>
                     </section>
                 </div>
