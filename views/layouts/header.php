@@ -16,6 +16,7 @@
         onload="this.onload=null;this.rel='stylesheet'" />
     <title>{{ title }}</title>
     <link rel="stylesheet" href="{{ asset }}css/main.css">
+    <script src="{{ asset }}js/pages/index.js" type="module"></script>
 </head>
 
 <body>

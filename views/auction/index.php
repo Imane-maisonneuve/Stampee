@@ -1,103 +1,117 @@
 {{ include('layouts/header.php', {title:'Auction index'})}}
 
+<script id="auction-data" type="application/json">
+{{ {
+  auctions: auctions,
+  stamps: stamps,
+  images:images,
+  asset:asset,
+  base:base,
+  amounts:amounts
+}|json_encode|raw }}
+</script>
+
+
 <div class="enchere">
 
     <aside class="barre-laterale">
-        <form>
+        <form data-filtres>
             <fieldset class="filtres-form">
                 <legend>
                     <h4>Types de vente</h4>
                 </legend>
-                <label><input type="checkbox" name="type" value="en_cours" />En
-                    cours</label>
-                <label>
-                    <input
+                <label><input data-categorie="status"
                         type="checkbox"
                         name="type"
-                        value="archive" />Archivées</label>
-            </fieldset>
-            <fieldset class="filtres-form">
-                <legend>
-                    <h4>Date d'ajout</h4>
-                </legend>
-                <label><input
+                        value="en_cours" />En cours
+                </label>
+                <label>
+                    <input data-categorie="status"
                         type="checkbox"
-                        name="Date"
-                        value="Aujourdhui" />Aujourd'hui</label>
-                <label><input type="checkbox" name="Date" value="semaine" />Cette
-                    semaine</label>
-                <label><input type="checkbox" name="Date" value="mois" />Ce mois</label>
+                        name="type"
+                        value="archive" />Archivées
+                </label>
             </fieldset>
             <fieldset class="filtres-form">
                 <legend>
                     <h4>Origine</h4>
                 </legend>
-                <label><input
+                <label><input data-categorie="origine"
+                        type="checkbox"
+                        name="origine-Europe"
+                        value="canada" />Canada
+                </label>
+                <label><input data-categorie="origine"
                         type="checkbox"
                         name="origine"
-                        value="europe" />Europe</label>
-                <label><input type="checkbox" name="origine" value="asie" /> Asie</label>
-                <label><input
+                        value="maroc" /> Maroc
+                </label>
+                <label><input data-categorie="origine"
                         type="checkbox"
                         name="origine"
-                        value="afrique" />Afrique</label>
-                <label><input
+                        value="belgique" />Belgique
+                </label>
+                <label><input data-categorie="origine"
                         type="checkbox"
                         name="origine"
-                        value="canada" />Canada</label>
-                <label><input
+                        value="france" />France
+                </label>
+                <label><input data-categorie="origine"
                         type="checkbox"
                         name="origine"
-                        value="usa" />États-Unis</label>
-                <label><input type="checkbox" name="origine" value="oceanie" />Australie
-                    et Océanie</label>
-                <label><input
+                        value="usa" />États-Unis
+                </label>
+                <label><input data-categorie="origine"
                         type="checkbox"
                         name="origine"
-                        value="gb" />Grande-Bretagne</label>
-                <label><input type="checkbox" name="origine" value="ameriques" />Monde
-                    entier</label>
+                        value="autre" />Monde entier
+                </label>
             </fieldset>
-
             <fieldset class="filtres-form">
                 <legend>
                     <h4>Condition</h4>
                 </legend>
-                <label><input
+                <label><input data-categorie="condition"
                         type="checkbox"
                         name="condition"
-                        value="parfaite" />Parfaite</label>
-                <label><input
+                        value="neuf" />Neuf
+                </label>
+                <label><input data-categorie="condition"
                         type="checkbox"
                         name="condition"
-                        value="excellente" />Excellente</label>
-                <label><input
+                        value="oblitere" />Oblitéré
+                </label>
+                <label><input data-categorie="condition"
                         type="checkbox"
                         name="condition"
-                        value="bonne" />Bonne</label>
-                <label><input
+                        value="comme-neuf" />Comme neuf
+                </label>
+                <label><input data-categorie="condition"
                         type="checkbox"
                         name="condition"
-                        value="moyenne" />Moyenne</label>
+                        value="Bon-Etat" />Bon état
+                </label>
             </fieldset>
             <fieldset class="filtres-form">
                 <legend>
                     <h4>Certification</h4>
                 </legend>
-                <label><input
+                <label><input data-categorie="certification"
                         type="checkbox"
                         name="certification"
-                        value="oui" />Oui</label>
-                <label><input
+                        value="oui" />Oui
+                </label>
+                <label><input data-categorie="ertification"
                         type="checkbox"
                         name="certification"
-                        value="non" />Non</label>
+                        value="non" />Non
+                </label>
             </fieldset>
         </form>
     </aside>
-    <article>
+    <article data-application>
         <h1>Les Meilleures Enchères de Timbres pour Collectionneurs Passionnés</h1>
-        <div class="grille">
+        <div class="grille" data-conteneur-encheres>
             {% for auction in auctions %}
             {% for stamp in stamps %}
             {% if stamp.id == auction.stamp_id %}

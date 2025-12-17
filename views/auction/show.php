@@ -61,12 +61,16 @@
                 <div class="enchere-detail">
                     <div class="enchere-infos">
                         {% if historiqueBids %}
-                        <p>Historique des mises :</p>
+                        <small>
+                            <p>Historique des mises :</p>
+                        </small>
                         {% endif %}
                     </div>
                     <div class="enchere-infos">
                         {% for historiqueBid in historiqueBids %}
-                        <p> {{ historiqueBid.bid_date }}, {{ historiqueUsers[historiqueBid.user_id] }} a misé {{ historiqueBid.bid_amount }}$.</p>
+                        <small>
+                            <p> {{ historiqueBid.bid_date }}, {{ historiqueUsers[historiqueBid.user_id] }} a misé {{ historiqueBid.bid_amount }}$.</p>
+                        </small>
                         {% endfor %}
                     </div>
                 </div>

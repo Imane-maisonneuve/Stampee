@@ -5,7 +5,7 @@
   padding: 20px;
 }
 .enchere > article {
-  flex-basis: 60%;
+  flex-basis: 70%;
 }
 
 .enchereNav {
@@ -36,6 +36,7 @@
 
 .enchere-timbre-image img:hover {
   transform: scale(1.5);
+  max-width: 600px;
 }
 
 .enchere-box {

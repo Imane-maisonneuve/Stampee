@@ -1,6 +1,6 @@
 {{ include('layouts/header.php', {title:'User show'})}}
 
-<div class="enchere">
+<div class="enchere show">
     <div class="barre-laterale">
         <h2>Mes informations</h2>
         <div class="enchere-detail">

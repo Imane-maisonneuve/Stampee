@@ -121,9 +121,29 @@ class UserController
             if ($update) {
                 $selectId = $user->selectId($get['id']);
                 $auction = new Auction;
-                $selectAuctions = $auction->getAuctions($data['id']);
-                if ($selectAuctions) {
-                    return View::render('user/show', ['user' => $selectId, 'auctions' => $selectAuctions]);
+                $isAuction = [];
+                $stamp = new Stamp;
+                // Récupérer les timbres de l'utilisateur
+                $selectStamps = $stamp->selectListe('user_id', $data['id']);
+                if ($selectStamps) {
+                    $image = new Image;
+                    // Récupérer les images principales des timbres
+                    foreach ($selectStamps as $selected) {
+                        $mainImage = $image->selectCol('main_image', 'stamp_id', $selected['id']);
+                        // Stocker les images dans un tableau associatif avec l'ID du timbre comme clé
+                        $selectImage[$selected['id']] =  $mainImage['main_image'];
+                        // Vérifier si le timbre est en enchère
+                        $auctionselect = $auction->selectCol('stamp_id', 'stamp_id', $selected['id']);
+                        if ($auctionselect) {
+                            // Marquer le timbre comme étant en enchère dans un tableau ayant comme index l'ID du timbre
+                            $isAuction[$selected['id']] = 1;
+                        }
+                    }
+                    if ($selectImage) {
+                        return View::render('user/show', ['user' => $selectId, 'stamps' => $selectStamps, 'images' => $selectImage, 'isAuction' => $isAuction]);
+                    } else {
+                        return View::render('user/show', ['user' => $selectId, 'stamps' => $selectStamps]);
+                    }
                 } else {
                     return View::render('user/show', ['user' => $selectId]);
                 }

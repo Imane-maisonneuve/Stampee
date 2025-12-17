@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Stamp;
 use App\Providers\Validator;
 use App\Providers\Auth;
+use App\Models\Auction;
 
 class ImageController
 {
@@ -64,10 +65,19 @@ class ImageController
                         $image = new Image;
                         foreach ($selectStamps as $selected) {
                             $mainImage = $image->selectCol('main_image', 'stamp_id', $selected['id']);
+                            // Stocker les images dans un tableau associatif avec l'ID du timbre comme clé
                             $selectImage[$selected['id']] =  $mainImage['main_image'];
+                            // Vérifier si le timbre est en enchère
+                            $auction = new Auction;
+                            $isAuction = [];
+                            $auctionselect = $auction->selectCol('stamp_id', 'stamp_id', $selected['id']);
+                            if ($auctionselect) {
+                                // Marquer le timbre comme étant en enchère dans un tableau ayant comme index l'ID du timbre
+                                $isAuction[$selected['id']] = 1;
+                            }
                         }
                         if ($selectImage) {
-                            return View::render('user/show', ['user' => $selectId, 'stamps' => $selectStamps, 'images' => $selectImage]);
+                            return View::render('user/show', ['user' => $selectId, 'stamps' => $selectStamps, 'images' => $selectImage, 'isAuction' => $isAuction]);
                         }
                         // TODO:gerer autrement
                         else {
@@ -162,10 +172,19 @@ class ImageController
             $image = new Image;
             foreach ($selectStamps as $selected) {
                 $mainImage = $image->selectCol('main_image', 'stamp_id', $selected['id']);
+                // Stocker les images dans un tableau associatif avec l'ID du timbre comme clé
                 $selectImage[$selected['id']] =  $mainImage['main_image'];
+                // Vérifier si le timbre est en enchère
+                $auction = new Auction;
+                $isAuction = [];
+                $auctionselect = $auction->selectCol('stamp_id', 'stamp_id', $selected['id']);
+                if ($auctionselect) {
+                    // Marquer le timbre comme étant en enchère dans un tableau ayant comme index l'ID du timbre
+                    $isAuction[$selected['id']] = 1;
+                }
             }
             if ($selectImage) {
-                return View::render('user/show', ['user' => $selectId, 'stamps' => $selectStamps, 'images' => $selectImage]);
+                return View::render('user/show', ['user' => $selectId, 'stamps' => $selectStamps, 'images' => $selectImage, 'isAuction' => $isAuction]);
             }
             // TODO:gerer autrement
             else {
