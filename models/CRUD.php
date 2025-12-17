@@ -20,6 +20,13 @@ abstract class CRUD extends \PDO
         return $stmt->fetchAll();
     }
 
+    final public function selectByCompositeKey()
+    {
+        $sql = "SELECT * FROM $this->table";
+        $stmt = $this->query($sql);
+        return $stmt->fetchAll();
+    }
+
     final public function selectId($value)
     {
         $sql = "SELECT * FROM $this->table WHERE $this->primaryKey = :$this->primaryKey";

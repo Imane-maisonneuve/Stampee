@@ -19,6 +19,16 @@
         <form data-filtres>
             <fieldset class="filtres-form">
                 <legend>
+                    <h4>Coups de coeur de Lord❤️</h4>
+                </legend>
+                <label><input data-categorie="coups-de-coeur"
+                        type="checkbox"
+                        name="type"
+                        value="coeur" />Coups de coeur de Lord
+                </label>
+            </fieldset>
+            <fieldset class="filtres-form">
+                <legend>
                     <h4>Types de vente</h4>
                 </legend>
                 <label><input data-categorie="status"

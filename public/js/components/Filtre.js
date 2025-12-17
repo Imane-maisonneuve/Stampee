@@ -76,6 +76,20 @@ class Filtre {
     }
     if (totalFiltres > 0) {
       for (const categorie in listFiltres) {
+        if (categorie === "coups-de-coeur") {
+          listFiltres["coups-de-coeur"].forEach((coeur) => {
+            switch (coeur) {
+              case "coeur":
+                this.#listeAuctionsClone.forEach((auction) => {
+                  if (auction.is_lord_s_favorite == "1") {
+                    nouvelleListAuctions.push(auction);
+                  }
+                });
+                break;
+            }
+          });
+        }
+
         if (categorie === "status") {
           listFiltres["status"].forEach((status) => {
             switch (status) {

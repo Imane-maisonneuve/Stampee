@@ -75,6 +75,13 @@ class Application {
                             <a href="${this.base}/auction/show?id=${auction.id}" class="bouton">Voir</a>
                         </div>
                         <small>Date de fin : ${auction.date_end}</small>
+                        <div class="coup-de-coeur">
+                          <form class="user-form" action="${this.base}/favoris_auction/store" method="post">
+                            <input type="hidden" name="user_id" value=${this.session_user_id}>
+                            <input type="hidden" name="auction_id" value=${auction.id}>
+                            <input type="submit" value="❤️">
+                          </form>
+                        </div>
                     </section>
                 </div>
             </div>`;
@@ -91,6 +98,13 @@ class Application {
                             <a href="${this.base}/auction/show?id=${auction.id}" class="bouton">Enchérir</a>
                         </div>
                         <small>Date de fin : ${auction.date_end}</small>
+                        <div class="coup-de-coeur">
+                          <form class="user-form" action="${this.base}/favoris_auction/store" method="post">
+                            <input type="hidden" name="user_id" value=${this.session_user_id}>
+                            <input type="hidden" name="auction_id" value=${auction.id}>
+                            <input type="submit" value="❤️">
+                          </form>
+                        </div>
                     </section>
                 </div>
             </div>`;

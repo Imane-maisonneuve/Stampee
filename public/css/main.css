@@ -95,6 +95,19 @@ select {
   padding: 15px 0;
 }
 
+.coup-de-coeur {
+  text-align: center;
+  cursor: pointer;
+}
+
+.coup-de-coeur:hover {
+  transform: scale(1.5);
+}
+.coup-de-coeur input {
+  all: unset;
+  box-sizing: border-box;
+}
+
 .mise-input {
   width: 100%;
   padding: 10px 12px;

@@ -33,4 +33,6 @@ Route::post('/image/create', 'ImageController@store');
 Route::get('/image/edit', 'ImageController@edit');
 Route::post('/image/edit', 'ImageController@update');
 
+Route::post('/favoris_auction/store', 'FavorisAuctionController@store');
+
 Route::dispatch();
